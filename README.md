@@ -1,16 +1,12 @@
 # AWS Maven Wagon
-##NOTE: THIS PROJECT IS NOT SUPPORTED ANYMORE!!!
 
-[![GitHub version](https://badge.fury.io/gh/platform-team%2Faws-maven.svg)](http://badge.fury.io/gh/platform-team%2Faws-maven)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-
-[![Dependency Status](https://www.versioneye.com/user/projects/5a8ab8e30fb24f3a2ef5b4be/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/5a8ab8e30fb24f3a2ef5b4be)
-[![Build Status](https://travis-ci.org/platform-team/aws-maven.svg?branch=master)](https://travis-ci.org/platform-team/aws-maven)
-[![Coverage Status](https://coveralls.io/repos/github/platform-team/aws-maven/badge.svg?branch=master)](https://coveralls.io/github/platform-team/aws-maven?branch=master)
 
 
 ## Description
-This project is a fork of a [Maven Wagon](https://github.com/spring-projects/aws-maven) for [Amazon S3](http://aws.amazon.com/s3/).  In order to to publish artifacts to an S3 bucket, the user (as identified by their access key) must be listed as an owner on the bucket.
+This project is a fork of a [Maven Wagon](https://github.com/spring-projects/aws-maven) for [Amazon S3](http://aws.amazon.com/s3/).  
+In order to to publish artifacts to an S3 bucket, the user (as identified by their access key) must have several permissions on the bucket
+(PutObject, PutObjectAcl, GetObject).
 
 
 ## Why this fork?
@@ -20,7 +16,8 @@ This project is a fork of a [Maven Wagon](https://github.com/spring-projects/aws
 
 
 ## Usage
-To publish Maven artifacts to S3 a build extension must be defined in a project's `pom.xml`.  The latest version of the wagon can be found on the [`aws-maven`](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.github.platform-team%22%20AND%20a%3A%22aws-maven%22) page in Maven Central.
+To publish Maven artifacts to S3 a build extension must be defined in a project's `pom.xml`.  
+The latest version of the wagon can be found on the [`aws-maven`](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.github.rytisjukna%22%20AND%20a%3A%22aws-maven%22) page in Maven Central.
 
 ```xml
 <project>
@@ -212,14 +209,16 @@ aws s3api put-bucket-policy --bucket $BUCKET --policy "$POLICY"
 ```
 
 ## Release Notes
+* `6.0.1`
+    - don't need owner permissions to upload/download from the S3 bucket.
+    - make sure you have region and access tokens listed in ~/.aws/ folder
+
 * `6.0.0`
     - Updated to the latest versions of aws-sdk and maven-wagon.
     - Changed order of aws credential resolution strategy.
     - Added support of all regions defined in aws-sdk.
 
 ## License
-
-Copyright 2018-Present Platform Team.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -4,10 +4,10 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.platform-team</groupId>
+    <groupId>com.github.rytisjukna</groupId>
     <artifactId>aws-maven</artifactId>
     <packaging>jar</packaging>
-    <version>6.0.0</version>
+    <version>6.0.1</version>
     <name>Amazon Web Services S3 Maven Wagon Support</name>
     <description>Standard Maven wagon support for s3:// urls</description>
 
@@ -125,24 +125,7 @@
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.eluder.coveralls</groupId>
-                <artifactId>coveralls-maven-plugin</artifactId>
-                <version>4.3.0</version>
-            </plugin>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.0</version>
-                <executions>
-                    <execution>
-                        <id>prepare-agent</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+        </plugins>
 
             <!-- Publish to Maven Central -->
             <!--
@@ -198,13 +181,10 @@
                 </executions>
             </plugin>
             -->
-        </plugins>
 
     </build>
 
-    <url>https://github.com/platform-team/aws-maven</url>
-
-    <inceptionYear>2018</inceptionYear>
+    <url>https://github.com/rytisjukna/aws-maven</url>
 
     <licenses>
         <license>
@@ -214,33 +194,6 @@
         </license>
     </licenses>
 
-    <scm>
-        <connection>scm:git:git@github.com:platform-team/aws-maven.git</connection>
-        <url>https://github.com/platform-team/aws-maven</url>
-    </scm>
-
-    <organization>
-        <name>Platform Team</name>
-        <url>https://platform.team</url>
-    </organization>
-
-    <ciManagement>
-        <system>Travis CI</system>
-        <url>https://travis-ci.org/platform-team/aws-maven</url>
-    </ciManagement>
-
-    <issueManagement>
-        <system>Github</system>
-        <url>https://github.com/platform-team/aws-maven/issues</url>
-    </issueManagement>
-
-    <developers>
-        <developer>
-            <id>moleksyuk</id>
-            <name>Mykhailo Oleksiuk</name>
-            <email>mykhailo.oleksiuk@gmail.com</email>
-        </developer>
-    </developers>
 
     <!-- Publish to Maven Central -->
     <!--
@@ -254,7 +207,6 @@
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
-
     <profiles>
         <profile>
             <id>ossrh</id>
@@ -268,4 +220,5 @@
         </profile>
     </profiles>
     -->
+
 </project>

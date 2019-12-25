@@ -143,16 +143,7 @@ public final class AmazonS3Wagon extends AbstractWagon {
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(0);
 
-        return new PutObjectRequest(bucketName, key, inputStream, objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead);
-    }
-
-    private static String getBucketRegion(AWSCredentialsProvider credentialsProvider, ClientConfiguration clientConfiguration, String bucketName) {
-        return AmazonS3Client.builder()
-                .withCredentials(credentialsProvider)
-                .withClientConfiguration(clientConfiguration)
-                .enableForceGlobalBucketAccess()
-                .build()
-                .getBucketLocation(bucketName);
+        return new PutObjectRequest(bucketName, key, inputStream, objectMetadata);
     }
 
     @Override
@@ -169,7 +160,7 @@ public final class AmazonS3Wagon extends AbstractWagon {
             this.amazonS3 = AmazonS3Client.builder()
                     .withCredentials(credentialsProvider)
                     .withClientConfiguration(clientConfiguration)
-                    .withRegion(getBucketRegion(credentialsProvider, clientConfiguration, this.bucketName))
+                    //.withRegion(getBucketRegion(credentialsProvider, clientConfiguration, this.bucketName))
                     .build();
         }
     }
