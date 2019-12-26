@@ -77,13 +77,13 @@ Make sure the user listed above (arn:aws:iam....) has at least these permissions
 
 Look at your `~/.aws/` folder, create one if missing.
 A file `config` must contain at least:
-```json
+```bash
 [default]
 region=<YOUR BUCKET REGION ID, FOR INSTANCE eu-central-1>
 ```
 
 A file `credentials` must contain:
-```json
+```bash
 [default]
 aws_access_key_id=<ACCESS KEY OF YOUR USER>
 aws_secret_access_key=<SECRET ACCESS KEY OF YOUR USER>
@@ -98,7 +98,7 @@ Alternatively, the access and secret keys for the account can be provided using 
 
 ### Preparing Maven to recognize S3 protocol
 
-Also, the `~/.m2/settings.xml` must be updated to reference S3 Wagon:
+The `~/.m2/settings.xml` must be updated to reference S3 Wagon:
 
 ```xml
 <settings>
@@ -124,18 +124,41 @@ Also, the `~/.m2/settings.xml` must be updated to reference S3 Wagon:
 ```
 
 ### Publishing Maven artifacts
-A S3 build extension must be defined in a project's `pom.xml`. 
+A S3 build extension must be defined in your maven *artifact*'s `pom.xml`. 
 
-The latest version of the wagon can be found on the [`aws-maven`](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.github.rytisjukna%22%20AND%20a%3A%22aws-maven%22) page in Maven Central.
+The latest version of the wagon can be found at http://rytisjunka.github.io
 
 ```xml
 <project>
+  ...
+<pluginRepositories>
+    ...
+    <!-- public github repository, hosts a proper aws s3 plugin for private repos -->
+	<pluginRepository>
+      <id>rytisjukna-plugins</id>
+      <name>Rytis Jukna plugins</name>
+      <url>https://rytisjukna.github.io/artifacts</url>
+
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+        <updatePolicy>never</updatePolicy>
+      </snapshots>
+      <layout>default</layout>
+    </pluginRepository>
+    ...
+</pluginRepositories>
+
   ...
   <build>
     ...
     <extensions>
       ...
       <extension>
+        <!-- allows using private S3 bucket for Maven artifact repo -->
         <groupId>com.github.rytisjukna</groupId>
         <artifactId>aws-maven</artifactId>
         <version>6.0.1</version>
@@ -148,12 +171,13 @@ The latest version of the wagon can be found on the [`aws-maven`](http://search.
 </project>
 ```
 
-Once the build extension is configured distribution management repositories can be defined in the `pom.xml` with an `s3://` scheme.
+Once the build extension is configured, the distribution management repositories can be defined in the maven *artifact*'s `pom.xml` with an `s3://` scheme.
 
 ```xml
 <project>
   ...
   <distributionManagement>
+    <!-- our private secret repo for Maven artifacts -->
     <repository>
       <id>aws-release</id>
       <name>AWS Release Repository</name>
@@ -175,15 +199,50 @@ mvn deploy
 ```
 
 ### Consuming Maven artifacts
-Your project pom.xml file must refer to the S3:
+Your *project* `pom.xml` file should refer to the public Github repo for the plugin, and for the private artifact repo on S3:
 ```xml
+...
+<pluginRepositories>
+    ...
+    <!-- public github repository, hosts a proper aws s3 plugin for private repos -->
+	<pluginRepository>
+      <id>rytisjukna-plugins</id>
+      <url>https://rytisjukna.github.io/artifacts</url>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+        <updatePolicy>never</updatePolicy>
+      </snapshots>
+      <layout>default</layout>
+    </pluginRepository>
+    ...
+</pluginRepositories>
 <repositories>
+    <!-- our private secret repo for Maven artifacts -->
      <repository>
       <id>aws-release</id>
-      <name>AWS Release Repository</name>
+      <name>our private AWS Release Repository</name>
       <url>s3://<BUCKET>/release</url>
     </repository>
 </repositories>
+  ...
+  <build>
+    ...
+    <extensions>
+      ...
+      <extension>
+        <!-- allows using private S3 bucket for Maven artifact repo -->
+        <groupId>com.github.rytisjukna</groupId>
+        <artifactId>aws-maven</artifactId>
+        <version>6.0.1</version>
+      </extension>
+      ...
+    </extensions>
+    ...
+  </build>
 
 ```
 
