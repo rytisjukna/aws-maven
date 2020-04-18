@@ -209,6 +209,9 @@ aws s3api put-bucket-policy --bucket $BUCKET --policy "$POLICY"
 ```
 
 ## Release Notes
+* `6.0.2`
+   - upgraded to java 11
+
 * `6.0.1`
     - don't need owner permissions to upload/download from the S3 bucket.
     - make sure you have region and access tokens listed in ~/.aws/ folder
